@@ -11,6 +11,16 @@
     "testWatchall": "jest --watchAll",
     "testCoverage": "jest --watchAll --coverage"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.test.js",
+      "!src/index.js",
+      "!src/database/index.js",
+      "!src/server/serverUp.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/isdi-coders-2022/Alejandro-Rodriguez_Back-Final-Project-202201-BCN.git"
