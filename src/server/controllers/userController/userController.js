@@ -1,6 +1,8 @@
+const User = require("../../../database/models/User");
+const encryptPassword = require("../../utils/encryptPassword");
+
 const registerUser = async (req, res, next) => {
   const user = req.body;
-
   const { username, password } = user;
 
   const existingUser = await User.findOne({ username });
