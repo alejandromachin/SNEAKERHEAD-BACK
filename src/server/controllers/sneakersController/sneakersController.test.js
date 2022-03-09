@@ -1,9 +1,9 @@
 const Sneaker = require("../../../database/models/Sneaker");
-const { getAllSneakersByBrand } = require("./sneakersController");
+const { getAllSneakers } = require("./sneakersController");
 
 jest.mock("../../../database/models/Sneaker");
 
-describe("Given getAllSneakersByBrand middleware", () => {
+describe("Given getAllSneakers middleware", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -19,7 +19,7 @@ describe("Given getAllSneakersByBrand middleware", () => {
       const sneakers = [{ sneaker: "test" }, { sneaker: "test" }];
 
       Sneaker.find = jest.fn().mockResolvedValue(sneakers);
-      await getAllSneakersByBrand(req, res);
+      await getAllSneakers(req, res);
 
       expect(res.json).toHaveBeenCalledWith(sneakers);
     });
@@ -32,10 +32,10 @@ describe("Given getAllSneakersByBrand middleware", () => {
         params: brand,
       };
       const next = jest.fn();
-      const error = new Error("We could not find any sneaker by that brand");
+      const error = new Error("We could not find any sneakers");
 
       Sneaker.find = jest.fn().mockResolvedValue(null);
-      await getAllSneakersByBrand(req, null, next);
+      await getAllSneakers(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
     });

@@ -1,11 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const {
-  getAllSneakersByBrand,
+  getAllSneakers,
 } = require("../controllers/sneakersController/sneakersController");
 
 const router = express.Router();
 
-router.get("/:brand", getAllSneakersByBrand);
+router.get("/", getAllSneakers);
 
 module.exports = router;

@@ -1,15 +1,14 @@
 const Sneaker = require("../../../database/models/Sneaker");
 
-const getAllSneakersByBrand = async (req, res, next) => {
-  const { brand } = req.params;
+const getAllSneakers = async (req, res, next) => {
   try {
-    const allSneakersByBrand = await Sneaker.find({ brand });
-    res.json(allSneakersByBrand);
+    const allSneakers = await Sneaker.find();
+    res.json(allSneakers);
   } catch {
-    const error = new Error("We could not find any sneaker by that brand");
+    const error = new Error("We could not find any sneakers");
     error.code = 404;
     next(error);
   }
 };
 
-module.exports = { getAllSneakersByBrand };
+module.exports = { getAllSneakers };
