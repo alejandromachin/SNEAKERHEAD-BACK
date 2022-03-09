@@ -5,7 +5,7 @@ const sneakerSchema = new Schema({
     type: String,
     required: true,
   },
-  model: {
+  style: {
     type: String,
     required: true,
   },
