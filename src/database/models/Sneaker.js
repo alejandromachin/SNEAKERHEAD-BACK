@@ -26,7 +26,9 @@ const sneakerSchema = new Schema({
     required: true,
   },
   ads: {
-    type: [],
+    type: [Schema.Types.ObjectId],
+    ref: "ads",
+    default: undefined,
   },
 });
 
