@@ -1,31 +1,31 @@
 const { model, Schema } = require("mongoose");
 
-const userSchema = new Schema({
-  name: {
+const adSchema = new Schema({
+  brand: {
     type: String,
     required: true,
   },
-  username: {
+  style: {
     type: String,
     required: true,
   },
-  password: {
+  colorway: {
     type: String,
     required: true,
   },
-  email: {
+  images: {
     type: String,
     required: true,
   },
-  city: {
+  price: {
     type: String,
     required: true,
   },
-  admin: {
-    default: false,
+  likes: {
+    type: Number,
   },
 });
 
-const User = model("User", userSchema, "users");
+const Ad = model("Ad", adSchema, "ads");
 
-module.exports = User;
+module.exports = Ad;
