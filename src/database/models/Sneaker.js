@@ -13,10 +13,6 @@ const sneakerSchema = new Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-  },
   releaseDate: {
     type: String,
     required: true,
