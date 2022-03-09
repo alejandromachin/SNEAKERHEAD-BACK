@@ -23,7 +23,6 @@ const userSchema = new Schema({
   },
   admin: {
     default: false,
-    required: true,
   },
 });
 
