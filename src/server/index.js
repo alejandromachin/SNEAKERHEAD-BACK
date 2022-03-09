@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const express = require("express");
 const cors = require("cors");
 const { notFoundError, generalError } = require("./middlewares/errors");
+const userRouter = require("./routers/userRouter");
 
 const app = express();
 app.use(morgan("dev"));
