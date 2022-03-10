@@ -1,5 +1,5 @@
 const Sneaker = require("../../../database/models/Sneaker");
-const { getAllSneakers } = require("./sneakersController");
+const { getAllSneakers, moreInfoSneaker } = require("./sneakersController");
 
 jest.mock("../../../database/models/Sneaker");
 
@@ -36,6 +36,47 @@ describe("Given getAllSneakers middleware", () => {
 
       Sneaker.find = jest.fn().mockResolvedValue(null);
       await getAllSneakers(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+
+describe("Given moreInfoSneaker middleware", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+  describe("When it receives a request with an id", () => {
+    test("Then it should call the response json method with the sneaker with that id", async () => {
+      const req = {
+        params: { id: "id" },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+      const sneaker = {
+        id: "id",
+      };
+      Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
+
+      await moreInfoSneaker(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(sneaker);
+    });
+  });
+  describe("When it receives a request with an id that doesn't exist", () => {
+    test("Then it should call it's next method with an error", async () => {
+      const req = {
+        params: { id: "wrongID" },
+      };
+
+      const next = jest.fn();
+      const error = new Error(
+        "Sorry, we did not find the sneaker you are looking for"
+      );
+
+      Sneaker.findById = jest.fn().mockResolvedValue(null);
+      await moreInfoSneaker(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
     });
