@@ -11,4 +11,18 @@ const getAllSneakers = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllSneakers };
+const moreInfoSneaker = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const sneaker = await Sneaker.findById(id);
+    res.json(sneaker);
+  } catch {
+    const error = new Error(
+      "Sorry, we did not find the sneaker you are looking for"
+    );
+    error.code = 404;
+    next(error);
+  }
+};
+
+module.exports = { getAllSneakers, moreInfoSneaker };
