@@ -13,14 +13,15 @@ describe("Given loadSneakerAds middleware", () => {
       const req = {
         params: { id: sneakerId },
       };
-      const speck = {
+      const sneaker = {
         name: "ad",
         ads: [],
-        populate: jest.fn().mockResolvedValue({ ads: [] }),
       };
 
       const next = jest.fn();
-      Sneaker.findById = jest.fn().mockResolvedValue(speck);
+
+      Sneaker.findById = jest.fn().mockReturnThis();
+      Sneaker.populate = jest.fn().mockResolvedValue(sneaker);
 
       const error = new Error(
         "Sorry, there are no ads related to this sneaker"
@@ -37,7 +38,7 @@ describe("Given loadSneakerAds middleware", () => {
       const req = {
         params: { id: sneakerId },
       };
-      const sneakerTest = {
+      const sneaker = {
         name: "sneaker",
         ads: ["ad1", "ad2"],
         populate: jest.fn().mockResolvedValue({ ads: ["ad1", "ad2"] }),
@@ -46,11 +47,12 @@ describe("Given loadSneakerAds middleware", () => {
         json: jest.fn(),
       };
 
-      Sneaker.findById = jest.fn().mockResolvedValue(sneakerTest);
+      Sneaker.findById = jest.fn().mockReturnThis();
+      Sneaker.populate = jest.fn().mockResolvedValue(sneaker);
 
       await loadSneakerAds(req, res, null);
 
-      expect(res.json).toHaveBeenCalledWith(sneakerTest.ads);
+      expect(res.json).toHaveBeenCalledWith(sneaker.ads);
     });
   });
 });
