@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const Ad = require("./Ad");
 
 const sneakerSchema = new Schema({
   brand: {
@@ -25,12 +26,10 @@ const sneakerSchema = new Schema({
     type: String,
     required: true,
   },
-  ads: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Ad",
-    },
-  ],
+  ads: {
+    type: [Schema.Types.ObjectId],
+    ref: Ad,
+  },
 });
 
 const Sneaker = model("Sneaker", sneakerSchema, "sneakers");
