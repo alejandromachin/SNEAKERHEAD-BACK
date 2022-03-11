@@ -25,11 +25,12 @@ const sneakerSchema = new Schema({
     type: String,
     required: true,
   },
-  ads: {
-    type: [Schema.Types.ObjectId],
-    ref: "ads",
-    default: undefined,
-  },
+  ads: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Ad",
+    },
+  ],
 });
 
 const Sneaker = model("Sneaker", sneakerSchema, "sneakers");
