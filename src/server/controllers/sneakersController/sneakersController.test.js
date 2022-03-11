@@ -8,7 +8,7 @@ describe("Given getAllSneakers middleware", () => {
     jest.resetAllMocks();
   });
   describe("When it receives a request with a brand that doesn't exist", () => {
-    test("Then it should call it's next method with an error", async () => {
+    test("Then it should call it's response json method with the sneakers", async () => {
       const brand = "Jordan";
       const req = {
         params: brand,
