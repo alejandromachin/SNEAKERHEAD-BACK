@@ -14,8 +14,7 @@ const adSchema = new Schema({
     required: true,
   },
   images: {
-    type: String,
-    required: true,
+    type: Array,
   },
   price: {
     type: String,
