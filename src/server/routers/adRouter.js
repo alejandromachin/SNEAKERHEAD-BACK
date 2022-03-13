@@ -7,5 +7,6 @@ const {
 const router = express.Router();
 
 router.get("/:id", loadSneakerAds);
+router.get("detail/:id", loadSneakerAdInfo);
 
 module.exports = router;
