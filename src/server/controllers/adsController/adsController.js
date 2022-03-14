@@ -1,3 +1,4 @@
+const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
 
 const loadSneakerAds = async (req, res, next) => {
@@ -14,4 +15,16 @@ const loadSneakerAds = async (req, res, next) => {
   }
 };
 
-module.exports = { loadSneakerAds };
+const loadSneakerAdInfo = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const adInfo = await Ad.findById(id);
+    res.json(adInfo);
+  } catch (error) {
+    error.code = 404;
+    next(error);
+  }
+};
+
+module.exports = { loadSneakerAds, loadSneakerAdInfo };
