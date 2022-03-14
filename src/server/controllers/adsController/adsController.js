@@ -18,7 +18,16 @@ const loadSneakerAds = async (req, res, next) => {
     res.json(ads);
   }
 };
-
+const deleteAd = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletedAd = await Sneaker.findByIdAndDelete(id);
+    res.json(deletedAd);
+  } catch {
+    const error = new Error("Sorry, we could not delete your item");
+    next(error);
+  }
+};
 const loadSneakerAdInfo = async (req, res, next) => {
   const { id } = req.params;
 
@@ -101,4 +110,4 @@ const createAd = async (req, res, next) => {
   }
 };
 
-module.exports = { loadSneakerAds, loadSneakerAdInfo, createAd };
+module.exports = { loadSneakerAds, loadSneakerAdInfo, createAd, deleteAd };
