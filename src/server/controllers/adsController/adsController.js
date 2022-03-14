@@ -29,16 +29,14 @@ const loadSneakerAdInfo = async (req, res, next) => {
   }
 };
 const createAd = async (req, res, next) => {
-  const { id } = req.params;
+  const data = req.body;
 
-  const adInfo = await Ad.findById(id);
-
-  if (adInfo === null) {
-    const error = new Error("The ad does not exist");
-    error.code = 404;
+  try {
+    const newAd = await Ad.create(data);
+    res.json(newAd);
+  } catch {
+    const error = new Error("Sorry, we could not list your item.");
     next(error);
-  } else {
-    res.json(adInfo);
   }
 };
 
