@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const User = require("./User");
 
 const adSchema = new Schema({
   brand: {
@@ -22,6 +23,10 @@ const adSchema = new Schema({
   },
   likes: {
     type: Number,
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: User,
   },
 });
 
