@@ -28,5 +28,18 @@ const loadSneakerAdInfo = async (req, res, next) => {
     res.json(adInfo);
   }
 };
+const createAd = async (req, res, next) => {
+  const { id } = req.params;
 
-module.exports = { loadSneakerAds, loadSneakerAdInfo };
+  const adInfo = await Ad.findById(id);
+
+  if (adInfo === null) {
+    const error = new Error("The ad does not exist");
+    error.code = 404;
+    next(error);
+  } else {
+    res.json(adInfo);
+  }
+};
+
+module.exports = { loadSneakerAds, loadSneakerAdInfo, createAd };
