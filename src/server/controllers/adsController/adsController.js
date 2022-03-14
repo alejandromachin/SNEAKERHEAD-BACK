@@ -18,12 +18,14 @@ const loadSneakerAds = async (req, res, next) => {
 const loadSneakerAdInfo = async (req, res, next) => {
   const { id } = req.params;
 
-  try {
-    const adInfo = await Ad.findById(id);
-    res.json(adInfo);
-  } catch (error) {
+  const adInfo = await Ad.findById(id);
+
+  if (adInfo === null) {
+    const error = new Error("The ad does not exist");
     error.code = 404;
     next(error);
+  } else {
+    res.json(adInfo);
   }
 };
 
