@@ -21,7 +21,7 @@ const loadSneakerAds = async (req, res, next) => {
 const deleteAd = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const deletedAd = await Sneaker.findByIdAndDelete(id);
+    const deletedAd = await Ad.findByIdAndDelete(id);
     res.json(deletedAd);
   } catch {
     const error = new Error("Sorry, we could not delete your item");
