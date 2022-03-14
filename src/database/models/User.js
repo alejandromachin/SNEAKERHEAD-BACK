@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const Ad = require("./Ad");
 
 const userSchema = new Schema({
   name: {
@@ -23,6 +24,10 @@ const userSchema = new Schema({
   },
   admin: {
     default: false,
+  },
+  ads: {
+    type: [Schema.Types.ObjectId],
+    ref: Ad,
   },
 });
 

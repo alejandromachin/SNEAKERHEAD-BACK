@@ -23,6 +23,10 @@ const adSchema = new Schema({
   likes: {
     type: Number,
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Ad = model("Ad", adSchema, "ads");
