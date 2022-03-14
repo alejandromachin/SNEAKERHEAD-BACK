@@ -1,5 +1,6 @@
+const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
-const { loadSneakerAds } = require("./adsController");
+const { loadSneakerAds, loadSneakerAdInfo } = require("./adsController");
 
 jest.mock("../../../database/models/Sneaker");
 
@@ -53,6 +54,25 @@ describe("Given loadSneakerAds middleware", () => {
       await loadSneakerAds(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(sneaker.ads);
+    });
+  });
+});
+
+describe("Given a loadSneakerAdInfo middleware", () => {
+  describe("When it receives a request with an ID that does not exist", () => {
+    test("Then it should call its response next method with an error", async () => {
+      const sneakerId = "test";
+
+      const req = {
+        params: { id: sneakerId },
+      };
+      const error = new Error("The ad does not exist");
+      const next = jest.fn();
+      Ad.findById = jest.fn().mockResolvedValue(null);
+
+      await loadSneakerAdInfo(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
     });
   });
 });

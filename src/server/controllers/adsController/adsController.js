@@ -1,3 +1,4 @@
+const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
 
 const loadSneakerAds = async (req, res, next) => {
@@ -14,4 +15,18 @@ const loadSneakerAds = async (req, res, next) => {
   }
 };
 
-module.exports = { loadSneakerAds };
+const loadSneakerAdInfo = async (req, res, next) => {
+  const { id } = req.params;
+
+  const adInfo = await Ad.findById(id);
+
+  if (adInfo === null) {
+    const error = new Error("The ad does not exist");
+    error.code = 404;
+    next(error);
+  } else {
+    res.json(adInfo);
+  }
+};
+
+module.exports = { loadSneakerAds, loadSneakerAdInfo };
