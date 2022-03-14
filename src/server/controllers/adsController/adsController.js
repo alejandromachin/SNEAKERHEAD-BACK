@@ -34,7 +34,6 @@ const loadSneakerAdInfo = async (req, res, next) => {
 };
 const createAd = async (req, res, next) => {
   const data = req.body;
-
   try {
     const newAd = await Ad.create(data);
 

@@ -1,5 +1,4 @@
 const { model, Schema } = require("mongoose");
-const User = require("./User");
 
 const adSchema = new Schema({
   brand: {
@@ -26,7 +25,7 @@ const adSchema = new Schema({
   },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: User,
+    ref: "User",
   },
 });
 
