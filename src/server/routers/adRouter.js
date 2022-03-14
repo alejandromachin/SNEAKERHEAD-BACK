@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/:id", loadSneakerAds);
 router.get("/detail/:id", loadSneakerAdInfo);
-router.delete("/detail/:id", deleteAd);
+router.delete("/:id", deleteAd);
 router.post(
   "/new",
   upload.fields([
