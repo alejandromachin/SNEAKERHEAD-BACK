@@ -22,9 +22,17 @@ const deleteAd = async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedAd = await Ad.findByIdAndDelete(id);
-    res.json(deletedAd);
+
+    if (deletedAd === null) {
+      const error = new Error("Sorry, we did not find the ad");
+      error.code = 404;
+      next(error);
+    } else {
+      res.json(deletedAd);
+    }
   } catch {
     const error = new Error("Sorry, we could not delete your item");
+    error.code = 500;
     next(error);
   }
 };
