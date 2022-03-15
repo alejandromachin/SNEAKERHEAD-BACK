@@ -88,7 +88,7 @@ describe("Given a deleteAd middleware", () => {
       const req = {
         params: { id: adId },
       };
-      const error = new Error("Sorry, we could not delete your item");
+      const error = new Error("Sorry, we did not find the ad");
       const next = jest.fn();
       Ad.findByIdAndDelete = jest.fn().mockResolvedValue(null);
 
