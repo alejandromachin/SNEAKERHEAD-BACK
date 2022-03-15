@@ -1,3 +1,5 @@
+require("dotenv").config();
+const fs = require("fs");
 const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
 const {
@@ -12,6 +14,13 @@ jest.mock("fs", () => ({
 }));
 jest.mock("path", () => ({
   ...jest.requireActual("path"),
+}));
+
+jest.mock("firebase/storage", () => ({
+  getStorage: () => "holaa",
+  ref: () => {},
+  getDownloadURL: async () => "download.url",
+  uploadBytes: async () => {},
 }));
 
 jest.mock("../../../database/models/Sneaker");
@@ -126,6 +135,72 @@ describe("Given a deleteAd middleware", () => {
 describe("Given a createAd middleware", () => {
   describe("When it receives a request with the data of an ad", () => {
     test("Then it should call its res json method with the ad created", async () => {
+      const newAd = {
+        sneakerId: "test",
+        brand: "test",
+        style: "test",
+        colorway: "test",
+        condition: 10,
+        images: ["test"],
+        price: "10.000",
+        size: 40,
+        likes: 0,
+        box: "good",
+        state: "new",
+        owner: "622b15710695a90af3e56a20",
+      };
+      const sneaker = {
+        id: "123",
+        brand: "Jordan",
+        style: "1 high",
+        colorway: "Chicago",
+        releaseDate: "1/2/1980",
+        image: "image",
+        averagePrice: "4.000€",
+        ads: [],
+      };
+      const newFile = {
+        originalname: "ad.jpeg",
+        filename: "test",
+        path: "uploads/test",
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: newAd,
+        files: {
+          image1: [newFile],
+          image2: [newFile],
+          image3: [newFile],
+          image4: [newFile],
+        },
+      };
+
+      jest
+        .spyOn(fs, "rename")
+        .mockImplementation(
+          (oldFilenameImage1, newFileNameImage1, callback) => {
+            callback();
+          }
+        );
+      jest.spyOn(fs, "readFile").mockImplementation((file, callback) => {
+        callback(null, newFile);
+      });
+
+      Ad.create = jest.fn().mockResolvedValue(newAd);
+      Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
+      Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
+      Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(Ad);
+      await createAd(req, res, null);
+
+      expect(res.json).toHaveBeenCalled();
+    });
+  });
+
+  describe("When it receives a request with the data of an ad but has an error", () => {
+    test("Then it should call its next method", async () => {
       const ad = {
         sneakerId: "test",
         brand: "test",
