@@ -4,7 +4,15 @@ const {
   loadSneakerAds,
   loadSneakerAdInfo,
   deleteAd,
+  createAd,
 } = require("./adsController");
+
+jest.mock("fs", () => ({
+  ...jest.requireActual("fs"),
+}));
+jest.mock("path", () => ({
+  ...jest.requireActual("path"),
+}));
 
 jest.mock("../../../database/models/Sneaker");
 
@@ -111,6 +119,59 @@ describe("Given a deleteAd middleware", () => {
       await deleteAd(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(ad);
+    });
+  });
+});
+
+describe("Given a createAd middleware", () => {
+  describe("When it receives a request with the data of an ad", () => {
+    test("Then it should call its res json method with the ad created", async () => {
+      const ad = {
+        sneakerId: "test",
+        brand: "test",
+        style: "test",
+        colorway: "test",
+        condition: 10,
+        images: ["test"],
+        price: "10.000",
+        size: 40,
+        likes: 0,
+        box: "good",
+        state: "new",
+        owner: "622b15710695a90af3e56a20",
+      };
+
+      const sneaker = {
+        id: "123",
+        brand: "Jordan",
+        style: "1 high",
+        colorway: "Chicago",
+        releaseDate: "1/2/1980",
+        image: "image",
+        averagePrice: "4.000€",
+        ads: [],
+      };
+      const req = {
+        body: ad,
+        files: {
+          image1: ["image1"],
+          image2: ["image2"],
+          image3: ["image3"],
+          image4: ["image4"],
+        },
+      };
+      const next = jest.fn();
+      const res = {
+        json: jest.fn(),
+      };
+
+      Ad.create = jest.fn().mockResolvedValue(ad);
+      Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
+      Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
+
+      await createAd(req, res, next);
+
+      expect(next).toHaveBeenCalled();
     });
   });
 });
