@@ -1,4 +1,6 @@
 require("dotenv").config();
+const { initializeApp } = require("firebase/app");
+const { getStorage } = require("firebase/storage");
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASEKEY,
@@ -9,4 +11,8 @@ const firebaseConfig = {
   appId: "1:963506192324:web:2d0f781eea82218a2b6e91",
 };
 
-module.exports = firebaseConfig;
+const firebaseApp = initializeApp(firebaseConfig);
+
+const storage = getStorage(firebaseApp);
+
+module.exports = storage;
