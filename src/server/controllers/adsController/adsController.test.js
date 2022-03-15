@@ -90,11 +90,27 @@ describe("Given a deleteAd middleware", () => {
       };
       const error = new Error("Sorry, we could not delete your item");
       const next = jest.fn();
-      Ad.findById = jest.fn().mockResolvedValue(null);
+      Ad.findByIdAndDelete = jest.fn().mockResolvedValue(null);
 
       await deleteAd(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+  describe("When it receives a request with an ID that exists", () => {
+    test("Then it should call its response json method with the ad with that ID", async () => {
+      const ad = { id: "test" };
+      const req = {
+        params: { id: ad.id },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+      Ad.findByIdAndDelete = jest.fn().mockResolvedValue(ad);
+
+      await deleteAd(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(ad);
     });
   });
 });
