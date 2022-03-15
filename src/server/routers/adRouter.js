@@ -7,6 +7,7 @@ const {
   loadSneakerAdInfo,
   createAd,
   deleteAd,
+  editAd,
 } = require("../controllers/adsController/adsController");
 
 const upload = multer({ dest: "uploads/" });
@@ -25,6 +26,16 @@ router.post(
     { name: "image4" },
   ]),
   createAd
+);
+router.patch(
+  "/:id",
+  upload.fields([
+    { name: "image1" },
+    { name: "image2" },
+    { name: "image3" },
+    { name: "image4" },
+  ]),
+  editAd
 );
 
 module.exports = router;

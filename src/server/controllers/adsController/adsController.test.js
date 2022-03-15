@@ -188,11 +188,11 @@ describe("Given a createAd middleware", () => {
       jest.spyOn(fs, "readFile").mockImplementation((file, callback) => {
         callback(null, newFile);
       });
-
       Ad.create = jest.fn().mockResolvedValue(newAd);
       Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
       Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
       Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(Ad);
+
       await createAd(req, res, null);
 
       expect(res.json).toHaveBeenCalled();

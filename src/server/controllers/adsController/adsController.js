@@ -172,4 +172,85 @@ const createAd = async (req, res, next) => {
   }
 };
 
-module.exports = { loadSneakerAds, loadSneakerAdInfo, createAd, deleteAd };
+const editAd = async (req, res, next) => {
+  const data = req.body;
+  const { id } = req.params;
+
+  const { brand, style, colorway, condition, price, size, state, box } = data;
+  const infoToUpdate = {
+    brand,
+    style,
+    colorway,
+    condition,
+    price,
+    size,
+    state,
+    box,
+  };
+
+  const editedAd = await Ad.findByIdAndUpdate(id, infoToUpdate);
+
+  if (req.files.image1) {
+    const oldFilenameImage1 = path.join(
+      "uploads",
+      req.files.image1[0].filename
+    );
+
+    const newFileNameImage1 = path.join(
+      "uploads",
+      req.files.image1[0].originalname
+    );
+
+    fs.rename(oldFilenameImage1, newFileNameImage1, () => {
+      fs.readFile(newFileNameImage1, async (error, file) => {
+        if (error) {
+          next(error);
+        } else {
+          const fileRef = ref(storage, newFileNameImage1);
+          await uploadBytes(fileRef, file);
+
+          const image1Url = await getDownloadURL(fileRef);
+
+          await Ad.findByIdAndUpdate(editedAd.id, {
+            image1: image1Url,
+          });
+        }
+      });
+    });
+  }
+  if (req.files.image2) {
+    const oldFilenameImage2 = path.join(
+      "uploads",
+      req.files.image2[0].filename
+    );
+    const newFileNameImage2 = path.join(
+      "uploads",
+      req.files.image2[0].originalname
+    );
+
+    fs.rename(oldFilenameImage2, newFileNameImage2, () => {
+      fs.readFile(newFileNameImage2, async (error, file) => {
+        if (error) {
+          next(error);
+        } else {
+          const fileRef = ref(storage, newFileNameImage2);
+          await uploadBytes(fileRef, file);
+
+          const image2Url = await getDownloadURL(fileRef);
+
+          await Ad.findByIdAndUpdate(editedAd.id, {
+            image2: image2Url,
+          });
+        }
+      });
+    });
+  }
+};
+
+module.exports = {
+  loadSneakerAds,
+  loadSneakerAdInfo,
+  createAd,
+  deleteAd,
+  editAd,
+};
