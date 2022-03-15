@@ -7,6 +7,7 @@ const {
   loadSneakerAdInfo,
   deleteAd,
   createAd,
+  editAd,
 } = require("./adsController");
 
 jest.mock("fs", () => ({
@@ -188,11 +189,11 @@ describe("Given a createAd middleware", () => {
       jest.spyOn(fs, "readFile").mockImplementation((file, callback) => {
         callback(null, newFile);
       });
-
       Ad.create = jest.fn().mockResolvedValue(newAd);
       Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
       Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
       Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(Ad);
+
       await createAd(req, res, null);
 
       expect(res.json).toHaveBeenCalled();
@@ -245,6 +246,103 @@ describe("Given a createAd middleware", () => {
       Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
 
       await createAd(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+});
+describe("Given a editAd middleware", () => {
+  describe("When it receives a request with the data of an ad to modify", () => {
+    test("Then it should call its res json method with the ad modified", async () => {
+      const adToModify = {
+        sneakerId: "test",
+        brand: "test",
+        style: "test",
+        colorway: "test",
+        condition: 10,
+        images: ["test"],
+        price: "10.000",
+        size: 40,
+        likes: 0,
+        box: "good",
+        state: "new",
+        owner: "622b15710695a90af3e56a20",
+      };
+
+      const newFile = {
+        originalname: "ad.jpeg",
+        filename: "test",
+        path: "uploads/test",
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: adToModify,
+        files: {
+          image1: [newFile],
+          image2: [newFile],
+          image3: [newFile],
+          image4: [newFile],
+        },
+        params: { id: "test" },
+      };
+
+      jest
+        .spyOn(fs, "rename")
+        .mockImplementation(
+          (oldFilenameImage1, newFileNameImage1, callback) => {
+            callback();
+          }
+        );
+      jest.spyOn(fs, "readFile").mockImplementation((file, callback) => {
+        callback(null, newFile);
+      });
+
+      Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(Ad);
+
+      await editAd(req, res, null);
+
+      expect(res.json).toHaveBeenCalled();
+    });
+  });
+  describe("When it receives a request with the data of an ad but has an error", () => {
+    test("Then it should call its next method", async () => {
+      const adToModify = {
+        sneakerId: "test",
+        brand: "test",
+        style: "test",
+        colorway: "test",
+        condition: 10,
+        images: ["test"],
+        price: "10.000",
+        size: 40,
+        likes: 0,
+        box: "good",
+        state: "new",
+        owner: "622b15710695a90af3e56a20",
+      };
+      const newFile = {
+        originalname: "ad.jpeg",
+        filename: "test",
+        path: "uploads/test",
+      };
+
+      const req = {
+        body: adToModify,
+        files: {
+          image1: [newFile],
+          image2: [newFile],
+          image3: [newFile],
+          image4: [newFile],
+        },
+        params: { id: "test" },
+      };
+      const next = jest.fn();
+      Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(adToModify);
+
+      await editAd(req, null, next);
 
       expect(next).toHaveBeenCalled();
     });

@@ -172,4 +172,141 @@ const createAd = async (req, res, next) => {
   }
 };
 
-module.exports = { loadSneakerAds, loadSneakerAdInfo, createAd, deleteAd };
+const editAd = async (req, res, next) => {
+  const data = req.body;
+  const { id } = req.params;
+
+  const { brand, style, colorway, condition, price, size, state, box } = data;
+  const infoToUpdate = {
+    brand,
+    style,
+    colorway,
+    condition,
+    price,
+    size,
+    state,
+    box,
+  };
+  try {
+    const editedAd = await Ad.findByIdAndUpdate(id, infoToUpdate);
+
+    if (req.files.image1) {
+      const oldFilenameImage1 = path.join(
+        "uploads",
+        req.files.image1[0].filename
+      );
+
+      const newFileNameImage1 = path.join(
+        "uploads",
+        req.files.image1[0].originalname
+      );
+
+      fs.rename(oldFilenameImage1, newFileNameImage1, () => {
+        fs.readFile(newFileNameImage1, async (error, file) => {
+          if (error) {
+            next(error);
+          } else {
+            const fileRef = ref(storage, newFileNameImage1);
+            await uploadBytes(fileRef, file);
+
+            const image1Url = await getDownloadURL(fileRef);
+
+            await Ad.findByIdAndUpdate(editedAd.id, {
+              image1: image1Url,
+            });
+          }
+        });
+      });
+    }
+    if (req.files.image2) {
+      const oldFilenameImage2 = path.join(
+        "uploads",
+        req.files.image2[0].filename
+      );
+      const newFileNameImage2 = path.join(
+        "uploads",
+        req.files.image2[0].originalname
+      );
+
+      fs.rename(oldFilenameImage2, newFileNameImage2, () => {
+        fs.readFile(newFileNameImage2, async (error, file) => {
+          if (error) {
+            next(error);
+          } else {
+            const fileRef = ref(storage, newFileNameImage2);
+            await uploadBytes(fileRef, file);
+
+            const image2Url = await getDownloadURL(fileRef);
+
+            await Ad.findByIdAndUpdate(editedAd.id, {
+              image2: image2Url,
+            });
+          }
+        });
+      });
+    }
+    if (req.files.image3) {
+      const oldFilenameImage3 = path.join(
+        "uploads",
+        req.files.image3[0].filename
+      );
+      const newFileNameImage3 = path.join(
+        "uploads",
+        req.files.image3[0].originalname
+      );
+
+      fs.rename(oldFilenameImage3, newFileNameImage3, () => {
+        fs.readFile(newFileNameImage3, async (error, file) => {
+          if (error) {
+            next(error);
+          }
+          const fileRef = ref(storage, newFileNameImage3);
+          await uploadBytes(fileRef, file);
+
+          const image3Url = await getDownloadURL(fileRef);
+
+          await Ad.findByIdAndUpdate(editedAd.id, {
+            image3: image3Url,
+          });
+        });
+      });
+    }
+    if (req.files.image4) {
+      const oldFilenameImage4 = path.join(
+        "uploads",
+        req.files.image4[0].filename
+      );
+      const newFileNameImage4 = path.join(
+        "uploads",
+        req.files.image4[0].originalname
+      );
+      fs.rename(oldFilenameImage4, newFileNameImage4, () => {
+        fs.readFile(newFileNameImage4, async (error, file) => {
+          if (error) {
+            next(error);
+          }
+          const fileRef = ref(storage, newFileNameImage4);
+          await uploadBytes(fileRef, file);
+
+          const image4Url = await getDownloadURL(fileRef);
+
+          await Ad.findByIdAndUpdate(editedAd.id, {
+            image4: image4Url,
+          });
+        });
+      });
+    }
+    res.json(editAd);
+  } catch {
+    const error = new Error("Sorry, we could not edit your item.");
+    next(error);
+  }
+};
+
+module.exports = {
+  loadSneakerAds,
+  loadSneakerAdInfo,
+  createAd,
+  deleteAd,
+  editAd,
+};
