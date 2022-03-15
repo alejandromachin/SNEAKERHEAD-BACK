@@ -55,9 +55,16 @@ const loadSneakerAdInfo = async (req, res, next) => {
 
 const createAd = async (req, res, next) => {
   const data = req.body;
+  const { sneakerId } = data;
 
   try {
     const newAd = await Ad.create(data);
+
+    const sneaker = await Sneaker.findById(sneakerId);
+
+    sneaker.ads.push(newAd.id);
+
+    await Sneaker.findByIdAndUpdate(sneaker.id, sneaker);
 
     const oldFilenameImage1 = path.join(
       "uploads",
