@@ -13,8 +13,21 @@ const adSchema = new Schema({
     type: String,
     required: true,
   },
-  images: {
-    type: Array,
+  image1: {
+    type: String,
+    default: "",
+  },
+  image2: {
+    type: String,
+    default: "",
+  },
+  image3: {
+    type: String,
+    default: "",
+  },
+  image4: {
+    type: String,
+    default: "",
   },
   price: {
     type: String,
@@ -22,6 +35,7 @@ const adSchema = new Schema({
   },
   likes: {
     type: Number,
+    default: 0,
   },
   owner: {
     type: Schema.Types.ObjectId,
