@@ -1,6 +1,10 @@
 const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
-const { loadSneakerAds, loadSneakerAdInfo } = require("./adsController");
+const {
+  loadSneakerAds,
+  loadSneakerAdInfo,
+  deleteAd,
+} = require("./adsController");
 
 jest.mock("../../../database/models/Sneaker");
 
@@ -73,6 +77,40 @@ describe("Given a loadSneakerAdInfo middleware", () => {
       await loadSneakerAdInfo(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+describe("Given a deleteAd middleware", () => {
+  describe("When it receives a request with an ID that does not exist", () => {
+    test("Then it should call its response next method with an error", async () => {
+      const adId = "test";
+
+      const req = {
+        params: { id: adId },
+      };
+      const error = new Error("Sorry, we did not find the ad");
+      const next = jest.fn();
+      Ad.findByIdAndDelete = jest.fn().mockResolvedValue(null);
+
+      await deleteAd(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+  describe("When it receives a request with an ID that exists", () => {
+    test("Then it should call its response json method with the ad with that ID", async () => {
+      const ad = { id: "test" };
+      const req = {
+        params: { id: ad.id },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+      Ad.findByIdAndDelete = jest.fn().mockResolvedValue(ad);
+
+      await deleteAd(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(ad);
     });
   });
 });

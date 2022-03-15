@@ -95,3 +95,36 @@ describe("Given a 'ads/detail/:id' endpoint", () => {
     });
   });
 });
+
+describe("Given a 'ads/:id' endpoint", () => {
+  describe("When it receives a DELETE request and the id of an ad", () => {
+    test("Then it should response with the ad deleted and a code 200", async () => {
+      const endpoint = "/ads/62288281c2b0a157923fa397";
+
+      const { body } = await request(app).delete(endpoint).expect(200);
+
+      expect(body).toHaveProperty("colorway", "Chicago");
+    });
+  });
+  describe("When it receives a DELETE request and the id of an ad that does not exist", () => {
+    test("Then it should response with an error with the message 'Sorry, we did not find the ad' and a code 404", async () => {
+      const endpoint = "/ads/62288281c2b0a157923fa398";
+
+      const { body } = await request(app).delete(endpoint).expect(404);
+
+      expect(body).toHaveProperty("message", "Sorry, we did not find the ad");
+    });
+  });
+  describe("When it receives a DELETE request and the id with an ivalid format", () => {
+    test("Then it should response with an error with the message 'Sorry, we could not delete your item' and a code 500", async () => {
+      const endpoint = "/ads/invalid";
+
+      const { body } = await request(app).delete(endpoint).expect(500);
+
+      expect(body).toHaveProperty(
+        "message",
+        "Sorry, we could not delete your item"
+      );
+    });
+  });
+});
