@@ -100,7 +100,7 @@ const createAd = async (req, res, next) => {
       req.files.image4[0].originalname
     );
 
-    await fs.rename(oldFilenameImage1, newFileNameImage1, () => {
+    fs.rename(oldFilenameImage1, newFileNameImage1, () => {
       fs.readFile(newFileNameImage1, async (error, file) => {
         if (error) {
           next(error);
@@ -117,7 +117,7 @@ const createAd = async (req, res, next) => {
       });
     });
 
-    await fs.rename(oldFilenameImage2, newFileNameImage2, () => {
+    fs.rename(oldFilenameImage2, newFileNameImage2, () => {
       fs.readFile(newFileNameImage2, async (error, file) => {
         if (error) {
           next(error);
@@ -134,7 +134,7 @@ const createAd = async (req, res, next) => {
       });
     });
 
-    await fs.rename(oldFilenameImage3, newFileNameImage3, () => {
+    fs.rename(oldFilenameImage3, newFileNameImage3, () => {
       fs.readFile(newFileNameImage3, async (error, file) => {
         if (error) {
           next(error);
@@ -150,7 +150,7 @@ const createAd = async (req, res, next) => {
       });
     });
 
-    await fs.rename(oldFilenameImage4, newFileNameImage4, () => {
+    fs.rename(oldFilenameImage4, newFileNameImage4, () => {
       fs.readFile(newFileNameImage4, async (error, file) => {
         if (error) {
           next(error);
