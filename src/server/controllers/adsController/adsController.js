@@ -186,7 +186,9 @@ const editAd = async (req, res, next) => {
     box,
   };
   try {
-    const editedAd = await Ad.findByIdAndUpdate(id, infoToUpdate);
+    const editedAd = await Ad.findByIdAndUpdate(id, infoToUpdate, {
+      new: true,
+    });
 
     if (req.files.image1) {
       const oldFilenameImage1 = path.join(
