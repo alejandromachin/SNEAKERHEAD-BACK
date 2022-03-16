@@ -296,7 +296,7 @@ const editAd = async (req, res, next) => {
         });
       });
     }
-    res.json(editAd);
+    res.json(editedAd);
   } catch {
     const error = new Error("Sorry, we could not edit your item.");
     next(error);
