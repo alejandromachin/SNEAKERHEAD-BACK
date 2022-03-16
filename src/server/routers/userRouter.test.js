@@ -17,8 +17,9 @@ beforeAll(async () => {
 beforeEach(async () => {
   await User.create({
     name: "Alejandro",
+    lastname: "Rodriguez",
     username: "machinazo",
-    password: "12345",
+    password: "$2b$10$YWgU3XTyRRilXcc8uqOpNOTNu1tCzRJKrEyjrajSZJJvcutglPWXO",
     email: "test@test.com",
     city: "testland",
     admin: false,
@@ -40,6 +41,7 @@ describe("Given a /user/register endpoint", () => {
       const endpoint = "/user/register";
       const user = {
         name: "Alejandro Test",
+        lastname: "Rodriguez Test",
         username: "machinazo",
         password: "12345",
         email: "test@test.com",
@@ -57,6 +59,7 @@ describe("Given a /user/register endpoint", () => {
       const endpoint = "/user/register";
       const user = {
         name: "Alejandro Test",
+        lastname: "Rodriguez Test",
         username: "machinazo2",
         password: "12345",
         email: "test@test.com",
@@ -67,6 +70,38 @@ describe("Given a /user/register endpoint", () => {
       const { body } = await request(app).post(endpoint).send(user).expect(200);
 
       expect(body).toHaveProperty("username", "machinazo2");
+    });
+  });
+});
+describe("Given /login/ endpoint", () => {
+  describe("When it receives a POST request and a wrong user", () => {
+    test("then it should response with a error and the status code 404 ", async () => {
+      const user = { username: "wrong" };
+      const endpoint = "/user/login";
+
+      const { body } = await request(app).post(endpoint).send(user).expect(404);
+
+      expect(body).toHaveProperty("error");
+    });
+  });
+  describe("When it receives a POST request with the right user and a wrong password", () => {
+    test("then it should response with a error and the status code 403 ", async () => {
+      const user = { username: "machinazo", password: "contrasena1233" };
+      const endpoint = "/user/login/";
+
+      const { body } = await request(app).post(endpoint).send(user).expect(403);
+
+      expect(body).toHaveProperty("error");
+    });
+  });
+  describe("When it receives a POST request with the right user and a right password", () => {
+    test("then it should response status 200 and a token ", async () => {
+      const user = { username: "machinazo", password: "1234" };
+      const endpoint = "/user/login/";
+
+      const { body } = await request(app).post(endpoint).send(user).expect(200);
+
+      expect(body).toHaveProperty("token");
     });
   });
 });

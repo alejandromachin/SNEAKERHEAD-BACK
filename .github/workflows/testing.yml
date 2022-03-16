@@ -1,7 +1,8 @@
 name: Testing on push
 
 on: push
-
+env:
+  SECRET: ${{secrets.SECRET}}
 jobs:
   test:
     name: Test passes
