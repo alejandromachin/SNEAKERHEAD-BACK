@@ -176,10 +176,8 @@ const editAd = async (req, res, next) => {
   const data = req.body;
   const { id } = req.params;
 
-  const { brand, style, colorway, condition, price, size, state, box } = data;
+  const { colorway, condition, price, size, state, box } = data;
   const infoToUpdate = {
-    brand,
-    style,
     colorway,
     condition,
     price,
