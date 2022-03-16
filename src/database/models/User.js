@@ -32,6 +32,7 @@ const userSchema = new Schema({
   ads: {
     type: [Schema.Types.ObjectId],
     ref: Ad,
+    default: [],
   },
 });
 
