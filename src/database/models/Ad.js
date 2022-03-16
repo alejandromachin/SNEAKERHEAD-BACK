@@ -37,6 +37,18 @@ const adSchema = new Schema({
     type: Number,
     default: 0,
   },
+  condition: {
+    type: Number,
+    required: true,
+  },
+  box: {
+    type: String,
+    required: true,
+  },
+  size: {
+    type: Number,
+    required: true,
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
