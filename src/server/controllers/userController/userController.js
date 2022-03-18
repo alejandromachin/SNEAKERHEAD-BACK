@@ -27,7 +27,7 @@ const loginUser = async (req, res, next) => {
 
   if (!user) {
     const error = new Error("Username or password are wrong");
-    error.code = 404;
+    error.code = 403;
     next(error);
   } else {
     const userData = {
