@@ -117,6 +117,7 @@ describe("Given a loadUserAds middleware", () => {
       };
       const next = jest.fn();
       const error = new Error("Sorry, we did not find any ads");
+
       User.findById = jest.fn().mockResolvedValue(null);
 
       await loadUserAds(req, null, next);
