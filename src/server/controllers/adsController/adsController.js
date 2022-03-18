@@ -5,6 +5,7 @@ const path = require("path");
 
 const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
+const User = require("../../../database/models/User");
 const storage = require("../../utils/firebaseConfig");
 
 const loadSneakerAds = async (req, res, next) => {
@@ -64,6 +65,12 @@ const createAd = async (req, res, next) => {
     sneaker.ads.push(newAd.id);
 
     await Sneaker.findByIdAndUpdate(sneaker.id, sneaker);
+
+    const owner = await User.findById(data.owner);
+
+    owner.ads.push(newAd.id);
+
+    await User.findByIdAndUpdate(owner.id, owner);
 
     const oldFilenameImage1 = path.join(
       "uploads",
