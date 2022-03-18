@@ -110,4 +110,18 @@ describe("Given a loadUserAds middleware", () => {
       expect(res.json).toHaveBeenCalledWith(ads);
     });
   });
+  describe("When it receives a request with an id of an user that exist", () => {
+    test("Then it should call the response json method with the ads of that user", async () => {
+      const req = {
+        params: { id: "test" },
+      };
+      const next = jest.fn();
+      const error = new Error("Sorry, we did not find any ads");
+      User.findById = jest.fn().mockResolvedValue(null);
+
+      await loadUserAds(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
 });
