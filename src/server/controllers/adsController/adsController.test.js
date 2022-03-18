@@ -2,6 +2,7 @@ require("dotenv").config();
 const fs = require("fs");
 const Ad = require("../../../database/models/Ad");
 const Sneaker = require("../../../database/models/Sneaker");
+const User = require("../../../database/models/User");
 const {
   loadSneakerAds,
   loadSneakerAdInfo,
@@ -178,6 +179,7 @@ describe("Given a createAd middleware", () => {
           image4: [newFile],
         },
       };
+      const user = { ads: [] };
 
       jest
         .spyOn(fs, "rename")
@@ -193,6 +195,8 @@ describe("Given a createAd middleware", () => {
       Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
       Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
       Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(Ad);
+      User.findById = jest.fn().mockResolvedValue(user);
+      User.findByIdAndUpdate = jest.fn().mockResolvedValue(true);
 
       await createAd(req, res, null);
 
@@ -236,6 +240,8 @@ describe("Given a createAd middleware", () => {
           image4: ["image4"],
         },
       };
+      const user = { ads: [] };
+
       const next = jest.fn();
       const res = {
         json: jest.fn(),
@@ -244,6 +250,8 @@ describe("Given a createAd middleware", () => {
       Ad.create = jest.fn().mockResolvedValue(ad);
       Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
       Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
+      User.findById = jest.fn().mockResolvedValue(user);
+      User.findByIdAndUpdate = jest.fn().mockResolvedValue(true);
 
       await createAd(req, res, next);
 
