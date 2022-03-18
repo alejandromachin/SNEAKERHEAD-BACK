@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
 const User = require("../../../database/models/User");
 
-const { registerUser, loginUser } = require("./userController");
+const { registerUser, loginUser, loadUserAds } = require("./userController");
 
 jest.mock("../../../database/models/User");
 
@@ -87,6 +87,27 @@ describe("Given a getLogin function", () => {
       await loginUser(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith({ token });
+    });
+  });
+});
+
+describe("Given a loadUserAds middleware", () => {
+  describe("When it receives a request with an id of an user that exist", () => {
+    test("Then it should call the response json method with the ads of that user", async () => {
+      const req = {
+        params: { id: "test" },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+      const ads = [{ name: "ad" }, { name: "ad" }];
+
+      User.findById = jest.fn().mockReturnThis();
+      User.populate = jest.fn().mockResolvedValue({ ads });
+
+      await loadUserAds(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(ads);
     });
   });
 });

@@ -51,8 +51,9 @@ const loginUser = async (req, res, next) => {
 const loadUserAds = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id);
-    res.json(user.ads);
+    const { ads } = await User.findById(id).populate("ads");
+
+    res.json(ads);
   } catch {
     const error = new Error("Sorry, we did not find any ads");
     error.code = 404;

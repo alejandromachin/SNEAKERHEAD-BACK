@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.post("/ads/:id", loadUserAds);
+router.get("/ads/:id", loadUserAds);
 
 module.exports = router;
