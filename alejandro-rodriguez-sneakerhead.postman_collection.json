@@ -112,6 +112,63 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"test\",\n    \"lastname\": \"test\",\n    \"username\": \"test\",\n    \"password\":\"test\",\n    \"email\": \"test\",\n    \"city\": \"test\"\n\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{origin}}user/register",
+          "host": ["{{origin}}user"],
+          "path": ["register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{origin}}user/login",
+          "host": ["{{origin}}user"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "user ads",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}user/ads/623359fc14fef71610125a52",
+          "host": ["{{origin}}user"],
+          "path": ["ads", "623359fc14fef71610125a52"]
+        }
+      },
+      "response": []
     }
   ],
   "event": [
