@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const connectToDataBase = require("../../database");
 const { app } = require("..");
 const User = require("../../database/models/User");
+const Ad = require("../../database/models/Ad");
 
 let mongoServer;
 
@@ -16,18 +17,38 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await User.create({
+    _id: "623359fc14fef71610125a52",
     name: "Alejandro",
     lastname: "Rodriguez",
     username: "machinazo",
     password: "$2b$10$YWgU3XTyRRilXcc8uqOpNOTNu1tCzRJKrEyjrajSZJJvcutglPWXO",
     email: "test@test.com",
     city: "testland",
+    ads: ["6231ce8edb40ac7b958d137c"],
     admin: false,
+  });
+
+  await Ad.create({
+    _id: "6231ce8edb40ac7b958d137c",
+    brand: "Jordan",
+    style: "1 high",
+    colorway: "Chicago",
+    image1: "image",
+    image2: "image",
+    image3: "image",
+    image4: "image",
+    size: 40,
+    likes: 0,
+    price: "4.000€",
+    status: "new",
+    box: "no box",
+    condition: 10,
   });
 });
 
 afterEach(async () => {
   await User.deleteMany({});
+  await Ad.deleteMany({});
 });
 
 afterAll(async () => {
@@ -95,7 +116,7 @@ describe("Given /login/ endpoint", () => {
     });
   });
   describe("When it receives a POST request with the right user and a right password", () => {
-    test("then it should response status 200 and a token ", async () => {
+    test("Then it should response status 200 and a token ", async () => {
       const user = { username: "machinazo", password: "1234" };
       const endpoint = "/user/login/";
 
@@ -103,5 +124,27 @@ describe("Given /login/ endpoint", () => {
 
       expect(body).toHaveProperty("token");
     });
+  });
+});
+
+describe("Given a /user/ads/id endpoint", () => {
+  describe("When it receives a request with an id of a user", () => {
+    test("Then it should response a status 200 and the ads of that user", async () => {
+      const endpoint = "/user/ads/623359fc14fef71610125a52";
+      const numberOfAds = 1;
+
+      const { body } = await request(app).get(endpoint).expect(200);
+
+      expect(body).toHaveLength(numberOfAds);
+    });
+  });
+});
+describe("When it receives a request with a wrong id", () => {
+  test("Then it should response a status 404 and an error", async () => {
+    const endpoint = "/user/ads/wrong";
+
+    const { body } = await request(app).get(endpoint).expect(404);
+
+    expect(body).toHaveProperty("error");
   });
 });
