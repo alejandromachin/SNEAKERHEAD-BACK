@@ -1,140 +1,224 @@
 {
-  "info": {
-    "_postman_id": "d2a4eed0-f055-4cdc-9537-56f88ce64a96",
-    "name": "alejandro-rodriguez-sneakerhead",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "get all sneakers by brand",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}sneakers",
-          "host": ["{{origin}}sneakers"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "sneaker by id",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}/sneakers/62288281c2b0a157923fa397",
-          "host": ["{{origin}}"],
-          "path": ["sneakers", "62288281c2b0a157923fa397"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "all ads by sneaker id",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}ads/62288528c2b0a157923fa3ad",
-          "host": ["{{origin}}ads"],
-          "path": ["62288528c2b0a157923fa3ad"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "ad info by id",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}ads/detail/622b15710695a90af3e56a20",
-          "host": ["{{origin}}ads"],
-          "path": ["detail", "622b15710695a90af3e56a20"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "delete ad",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{origin}}ads/623067ce81a020ff6ebebfc4",
-          "host": ["{{origin}}ads"],
-          "path": ["623067ce81a020ff6ebebfc4"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "edit Ad",
-      "request": {
-        "method": "PATCH",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n\"price\": \"5000€\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{origin}}ads/6231ce8edb40ac7b958d137c",
-          "host": ["{{origin}}ads"],
-          "path": ["6231ce8edb40ac7b958d137c"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "New Ad",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n        \"brand\": \"modified\",\n        \"style\": \"test\",\n        \"colorway\": \"test\",\n        \"image1\": \"test\",\n        \"image2\": \"test\",\n        \"image3\": \"test\",\n        \"image4\": \"test\",\n        \"price\": \"test\",\n        \"likes\": 0,\n        \"size\": 40,\n        \"condition\": 10,\n        \"box\": \"good\",\n        \"state\": \"new\",\n        \"owner\": \"622b15710695a90af3e56a20\"\n    \n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{origin}}ads/new",
-          "host": ["{{origin}}ads"],
-          "path": ["new"]
-        }
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "origin",
-      "value": "https://finalprojectback.onrender.com/",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "d2a4eed0-f055-4cdc-9537-56f88ce64a96",
+		"name": "alejandro-rodriguez-sneakerhead",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all sneakers by brand",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}sneakers",
+					"host": [
+						"{{origin}}sneakers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sneaker by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}/sneakers/62288281c2b0a157923fa397",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"sneakers",
+						"62288281c2b0a157923fa397"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all ads by sneaker id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}ads/62288528c2b0a157923fa3ad",
+					"host": [
+						"{{origin}}ads"
+					],
+					"path": [
+						"62288528c2b0a157923fa3ad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ad info by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}ads/detail/622b15710695a90af3e56a20",
+					"host": [
+						"{{origin}}ads"
+					],
+					"path": [
+						"detail",
+						"622b15710695a90af3e56a20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete ad",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{origin}}ads/623067ce81a020ff6ebebfc4",
+					"host": [
+						"{{origin}}ads"
+					],
+					"path": [
+						"623067ce81a020ff6ebebfc4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit Ad",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"price\": \"5000€\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{origin}}ads/6231ce8edb40ac7b958d137c",
+					"host": [
+						"{{origin}}ads"
+					],
+					"path": [
+						"6231ce8edb40ac7b958d137c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Ad",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"brand\": \"modified\",\n        \"style\": \"test\",\n        \"colorway\": \"test\",\n        \"image1\": \"test\",\n        \"image2\": \"test\",\n        \"image3\": \"test\",\n        \"image4\": \"test\",\n        \"price\": \"test\",\n        \"likes\": 0,\n        \"size\": 40,\n        \"condition\": 10,\n        \"box\": \"good\",\n        \"state\": \"new\",\n        \"owner\": \"622b15710695a90af3e56a20\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{origin}}ads/new",
+					"host": [
+						"{{origin}}ads"
+					],
+					"path": [
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"test\",\n    \"lastname\": \"test\",\n    \"username\": \"test\",\n    \"password\":\"test\",\n    \"email\": \"test\",\n    \"city\": \"test\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{origin}}user/register",
+					"host": [
+						"{{origin}}user"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{origin}}user/login",
+					"host": [
+						"{{origin}}user"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "origin",
+			"value": "https://finalprojectback.onrender.com/",
+			"type": "string"
+		}
+	]
 }

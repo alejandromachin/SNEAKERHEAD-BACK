@@ -48,5 +48,16 @@ const loginUser = async (req, res, next) => {
     }
   }
 };
+const loadUserAds = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    res.json(user.ads);
+  } catch {
+    const error = new Error("Sorry, we did not find any ads");
+    error.code = 404;
+    next(error);
+  }
+};
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, loadUserAds };
