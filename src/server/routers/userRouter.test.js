@@ -96,11 +96,11 @@ describe("Given a /user/register endpoint", () => {
 });
 describe("Given /login/ endpoint", () => {
   describe("When it receives a POST request and a wrong user", () => {
-    test("then it should response with a error and the status code 404 ", async () => {
+    test("then it should response with a error and the status code 403 ", async () => {
       const user = { username: "wrong" };
       const endpoint = "/user/login";
 
-      const { body } = await request(app).post(endpoint).send(user).expect(404);
+      const { body } = await request(app).post(endpoint).send(user).expect(403);
 
       expect(body).toHaveProperty("error");
     });

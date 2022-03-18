@@ -21,8 +21,8 @@ describe("Given a notFoundError middleware", () => {
 describe("Given a generalError middleware", () => {
   describe("When it receives a request", () => {
     test("Then it should call the response json method with the message 'all wrong' and status 500", async () => {
-      const err = { error: true, message: "General error" };
       const errorStatus = 500;
+      const err = { error: true, message: "General error", code: errorStatus };
       const res = {
         json: jest.fn(),
         status: jest.fn(),
