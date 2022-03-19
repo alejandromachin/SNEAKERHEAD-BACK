@@ -8,6 +8,7 @@ const {
   createAd,
   deleteAd,
   editAd,
+  loadHotDeals,
 } = require("../controllers/adsController/adsController");
 
 const upload = multer({ dest: "uploads/" });
@@ -15,6 +16,7 @@ const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
 router.get("/:id", loadSneakerAds);
+router.get("/hotdeals/load", loadHotDeals);
 router.get("/detail/:id", loadSneakerAdInfo);
 router.delete("/:id", deleteAd);
 router.post(
