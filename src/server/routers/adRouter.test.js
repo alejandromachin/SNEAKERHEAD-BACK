@@ -62,6 +62,21 @@ beforeEach(async () => {
     box: "Good",
     condition: 10,
   });
+  await Ad.create({
+    _id: "622884cac2b0a157923fa397",
+    brand: "Jordan",
+    style: "1 high",
+    colorway: "Blue",
+    image1: "image",
+    image2: "image",
+    image3: "image",
+    image4: "image",
+    size: 40,
+    likes: 0,
+    price: "4.000€",
+    box: "Good",
+    condition: 10,
+  });
 });
 
 afterEach(async () => {
@@ -142,6 +157,18 @@ describe("Given a 'ads/:id' endpoint", () => {
         "message",
         "Sorry, we could not delete your item"
       );
+    });
+  });
+});
+
+describe("Given a /ads/hotdeals/load endpoint", () => {
+  describe("When it receives GET request", () => {
+    test("Then it should response with a 200 status and an array of 4 ads", async () => {
+      const endpoint = "/ads/hotdeals/load";
+
+      const { body } = await request(app).get(endpoint).expect(200);
+
+      expect(body).toHaveLength(4);
     });
   });
 });
