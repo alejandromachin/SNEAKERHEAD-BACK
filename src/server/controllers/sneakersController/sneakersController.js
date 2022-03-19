@@ -2,7 +2,9 @@ const Sneaker = require("../../../database/models/Sneaker");
 
 const getAllSneakers = async (req, res, next) => {
   try {
-    const allSneakers = await Sneaker.find();
+    const limit = +req.query.limit;
+    const skip = +req.query.skip;
+    const allSneakers = await Sneaker.find().skip(skip).limit(limit);
     res.json(allSneakers);
   } catch {
     const error = new Error("We could not find any sneakers");
