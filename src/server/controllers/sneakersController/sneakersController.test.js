@@ -7,19 +7,22 @@ describe("Given getAllSneakers middleware", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
-  describe("When it receives a request with a brand that doesn't exist", () => {
+  describe("When it receives a request", () => {
     test("Then it should call it's response json method with the sneakers", async () => {
       const brand = "Jordan";
       const req = {
         params: brand,
+        query: { limit: "test", skip: "test" },
       };
       const res = {
         json: jest.fn(),
       };
       const sneakers = [{ sneaker: "test" }, { sneaker: "test" }];
 
-      Sneaker.find = jest.fn().mockResolvedValue(sneakers);
-      await getAllSneakers(req, res);
+      Sneaker.find = jest.fn().mockReturnThis();
+      Sneaker.skip = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
+      await getAllSneakers(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(sneakers);
     });
