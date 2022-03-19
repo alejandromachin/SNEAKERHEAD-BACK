@@ -21,6 +21,18 @@ const loadSneakerAds = async (req, res, next) => {
     res.json(ads);
   }
 };
+const loadHotDeals = async (req, res, next) => {
+  try {
+    const ads = await Ad.find();
+    ads.sort((a, b) => b.likes - a.likes);
+
+    res.json([ads[0], ads[1], ads[2], ads[3]]);
+  } catch {
+    const error = new Error("Sorry, there are no hot deals at the moment");
+    error.code = 404;
+    next(error);
+  }
+};
 const deleteAd = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -316,4 +328,5 @@ module.exports = {
   createAd,
   deleteAd,
   editAd,
+  loadHotDeals,
 };
