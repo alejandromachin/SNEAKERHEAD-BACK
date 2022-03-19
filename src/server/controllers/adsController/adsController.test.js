@@ -9,6 +9,7 @@ const {
   deleteAd,
   createAd,
   editAd,
+  loadHotDeals,
 } = require("./adsController");
 
 jest.mock("fs", () => ({
@@ -351,6 +352,46 @@ describe("Given a editAd middleware", () => {
       Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(adToModify);
 
       await editAd(req, null, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a loadHotDeals middleware", () => {
+  describe("When it receives a request", () => {
+    test("Then it should call the response json method with an array of 4 ads", async () => {
+      const ads = [
+        {
+          likes: 1,
+        },
+        {
+          likes: 2,
+        },
+        {
+          likes: 3,
+        },
+        {
+          likes: 4,
+        },
+      ];
+      const res = {
+        json: jest.fn(),
+      };
+      Ad.find = jest.fn().mockResolvedValue(ads);
+
+      await loadHotDeals(null, res, null);
+
+      expect(res.json).toHaveBeenCalledWith([ads[0], ads[1], ads[2], ads[3]]);
+    });
+  });
+
+  describe("When it receives a request but it has an error", () => {
+    test("Then it should call its next method", async () => {
+      const next = jest.fn();
+      Ad.find = jest.fn().mockResolvedValue(null);
+
+      await loadHotDeals(null, null, next);
 
       expect(next).toHaveBeenCalled();
     });

@@ -28,7 +28,7 @@ const loadHotDeals = async (req, res, next) => {
 
     res.json([ads[0], ads[1], ads[2], ads[3]]);
   } catch {
-    const error = new Error("Sorry, there are no ads related to this sneaker");
+    const error = new Error("Sorry, there are no hot deals at the moment");
     error.code = 404;
     next(error);
   }
