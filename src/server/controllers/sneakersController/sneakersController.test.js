@@ -1,5 +1,9 @@
 const Sneaker = require("../../../database/models/Sneaker");
-const { getAllSneakers, moreInfoSneaker } = require("./sneakersController");
+const {
+  getAllSneakers,
+  moreInfoSneaker,
+  getAllSneakersSlider,
+} = require("./sneakersController");
 
 jest.mock("../../../database/models/Sneaker");
 
@@ -60,8 +64,8 @@ describe("Given moreInfoSneaker middleware", () => {
       const sneaker = {
         id: "id",
       };
-      Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
 
+      Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
       await moreInfoSneaker(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(sneaker);
@@ -80,6 +84,38 @@ describe("Given moreInfoSneaker middleware", () => {
 
       Sneaker.findById = jest.fn().mockResolvedValue(null);
       await moreInfoSneaker(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+
+describe("Given getAllSneakersSlider middleware", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+  describe("When it receives a request", () => {
+    test("Then it should call it's response json method with the sneakers", async () => {
+      const res = {
+        json: jest.fn(),
+      };
+      const sneakers = [{ sneaker: "test" }, { sneaker: "test" }];
+
+      Sneaker.find = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
+      await getAllSneakersSlider(null, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(sneakers);
+    });
+  });
+
+  describe("When it receives a request with a brand that doesn't exist", () => {
+    test("Then it should call it's next method with an error", async () => {
+      const next = jest.fn();
+      const error = new Error("We could not find any sneakers");
+
+      Sneaker.find = jest.fn().mockResolvedValue(null);
+      await getAllSneakersSlider(null, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
     });
