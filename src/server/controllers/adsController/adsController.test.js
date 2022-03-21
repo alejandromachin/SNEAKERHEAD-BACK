@@ -37,6 +37,7 @@ describe("Given loadSneakerAds middleware", () => {
       const sneakerId = "test";
       const req = {
         params: { id: sneakerId },
+        query: { limit: "test", skip: "test" },
       };
       const sneaker = {
         name: "ad",
@@ -46,7 +47,9 @@ describe("Given loadSneakerAds middleware", () => {
       const next = jest.fn();
 
       Sneaker.findById = jest.fn().mockReturnThis();
-      Sneaker.populate = jest.fn().mockResolvedValue(sneaker);
+      Sneaker.populate = jest.fn().mockReturnThis();
+      Sneaker.skip = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneaker);
 
       const error = new Error(
         "Sorry, there are no ads related to this sneaker"
@@ -62,6 +65,7 @@ describe("Given loadSneakerAds middleware", () => {
       const sneakerId = "test";
       const req = {
         params: { id: sneakerId },
+        query: { limit: "test", skip: "test" },
       };
       const sneaker = {
         name: "sneaker",
@@ -73,7 +77,10 @@ describe("Given loadSneakerAds middleware", () => {
       };
 
       Sneaker.findById = jest.fn().mockReturnThis();
-      Sneaker.populate = jest.fn().mockResolvedValue(sneaker);
+      Sneaker.populate = jest.fn().mockReturnThis();
+
+      Sneaker.skip = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneaker);
 
       await loadSneakerAds(req, res, null);
 
