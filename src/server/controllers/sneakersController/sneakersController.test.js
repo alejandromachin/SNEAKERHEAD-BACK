@@ -3,11 +3,51 @@ const {
   getAllSneakers,
   moreInfoSneaker,
   getAllSneakersSlider,
+  getAllSneakersByBrand,
 } = require("./sneakersController");
 
 jest.mock("../../../database/models/Sneaker");
 
 describe("Given getAllSneakers middleware", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+  describe("When it receives a request", () => {
+    test("Then it should call it's response json method with the sneakers", async () => {
+      const req = {
+        query: { limit: "test", skip: "test" },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+      const sneakers = [{ sneaker: "test" }, { sneaker: "test" }];
+
+      Sneaker.find = jest.fn().mockReturnThis();
+      Sneaker.skip = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
+      await getAllSneakers(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(sneakers);
+    });
+  });
+
+  describe("When it receives a request but has an error on finding", () => {
+    test("Then it should call it's next method with an error", async () => {
+      const req = {
+        query: { limit: "test", skip: "test" },
+      };
+      const next = jest.fn();
+      const error = new Error("We could not find any sneakers");
+
+      Sneaker.find = jest.fn().mockResolvedValue(null);
+      await getAllSneakers(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+
+describe("Given getAllSneakersByBrand middleware", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -26,7 +66,7 @@ describe("Given getAllSneakers middleware", () => {
       Sneaker.find = jest.fn().mockReturnThis();
       Sneaker.skip = jest.fn().mockReturnThis();
       Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
-      await getAllSneakers(req, res, null);
+      await getAllSneakersByBrand(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(sneakers);
     });
@@ -42,7 +82,7 @@ describe("Given getAllSneakers middleware", () => {
       const error = new Error("We could not find any sneakers");
 
       Sneaker.find = jest.fn().mockResolvedValue(null);
-      await getAllSneakers(req, null, next);
+      await getAllSneakersByBrand(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
     });
