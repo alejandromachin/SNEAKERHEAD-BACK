@@ -18,7 +18,7 @@ const getAllSneakersByParam = async (req, res, next) => {
   try {
     const { param } = req.params;
 
-    const paramsArray = param.split(" ");
+    const paramsArray = param.toLowerCase().split(" ");
 
     const limit = +req.query.limit;
     const skip = +req.query.skip;

@@ -62,8 +62,8 @@ describe("Given getAllSneakersByBrand middleware", () => {
         json: jest.fn(),
       };
       const sneakers = [
-        { brand: "Jordan", colorway: "test", style: "test" },
-        { brand: "Jordan", colorway: "test", style: "test" },
+        { brand: "jordan", colorway: "test", style: "test" },
+        { brand: "jordan", colorway: "test", style: "test" },
       ];
 
       Sneaker.find = jest.fn().mockReturnThis();
