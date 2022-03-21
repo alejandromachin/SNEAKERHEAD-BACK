@@ -3,7 +3,7 @@ const {
   getAllSneakers,
   moreInfoSneaker,
   getAllSneakersSlider,
-  getAllSneakersByBrand,
+  getAllSneakersByParam,
 } = require("./sneakersController");
 
 jest.mock("../../../database/models/Sneaker");
@@ -55,18 +55,22 @@ describe("Given getAllSneakersByBrand middleware", () => {
     test("Then it should call it's response json method with the sneakers", async () => {
       const brand = "Jordan";
       const req = {
-        params: brand,
+        params: { param: brand },
         query: { limit: "test", skip: "test" },
       };
       const res = {
         json: jest.fn(),
       };
-      const sneakers = [{ sneaker: "test" }, { sneaker: "test" }];
+      const sneakers = [
+        { brand: "Jordan", colorway: "test", style: "test" },
+        { brand: "Jordan", colorway: "test", style: "test" },
+      ];
 
       Sneaker.find = jest.fn().mockReturnThis();
       Sneaker.skip = jest.fn().mockReturnThis();
       Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
-      await getAllSneakersByBrand(req, res, null);
+
+      await getAllSneakersByParam(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(sneakers);
     });
@@ -82,7 +86,7 @@ describe("Given getAllSneakersByBrand middleware", () => {
       const error = new Error("We could not find any sneakers");
 
       Sneaker.find = jest.fn().mockResolvedValue(null);
-      await getAllSneakersByBrand(req, null, next);
+      await getAllSneakersByParam(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
     });
