@@ -24,9 +24,11 @@ const getAllSneakersByParam = async (req, res, next) => {
 
     const filterSneakers = allSneakers.filter(
       (sneaker) =>
-        sneaker.colorway.toLowerCase() === param ||
-        sneaker.brand.toLowerCase() === param ||
-        sneaker.style.toLowerCase() === param
+        sneaker.colorway.toLowerCase() === param.toLowerCase() ||
+        sneaker.brand.toLowerCase() === param.toLowerCase() ||
+        sneaker.style.toLowerCase() === param.toLowerCase() ||
+        `${sneaker.brand.toLowerCase()} ${sneaker.style.toLowerCase()} ${sneaker.colorway.toLowerCase()}` ===
+          param.toLowerCase()
     );
 
     res.json(filterSneakers);
