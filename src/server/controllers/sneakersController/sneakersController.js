@@ -21,7 +21,7 @@ const getAllSneakersByParam = async (req, res, next) => {
     const limit = +req.query.limit;
     const skip = +req.query.skip;
 
-    if (param === " ") {
+    if (param === "all") {
       const allSneakers = await Sneaker.find().skip(skip).limit(limit);
       res.json(allSneakers);
     } else {
