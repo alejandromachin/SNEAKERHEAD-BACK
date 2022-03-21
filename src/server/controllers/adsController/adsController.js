@@ -14,10 +14,10 @@ const loadSneakerAds = async (req, res, next) => {
   const limit = +req.query.limit;
   const skip = +req.query.skip;
 
-  const { ads } = await Sneaker.findById(id)
-    .populate("ads")
-    .skip(skip)
-    .limit(limit);
+  const { ads } = await Sneaker.findById(id).populate({
+    path: "ads",
+    options: { skip, limit },
+  });
 
   if (ads.length === 0) {
     const error = new Error("Sorry, there are no ads related to this sneaker");
