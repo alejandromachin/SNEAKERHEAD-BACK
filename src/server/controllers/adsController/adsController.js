@@ -11,7 +11,13 @@ const storage = require("../../utils/firebaseConfig");
 const loadSneakerAds = async (req, res, next) => {
   const { id } = req.params;
 
-  const { ads } = await Sneaker.findById(id).populate("ads");
+  const limit = +req.query.limit;
+  const skip = +req.query.skip;
+
+  const { ads } = await Sneaker.findById(id)
+    .populate("ads")
+    .skip(skip)
+    .limit(limit);
 
   if (ads.length === 0) {
     const error = new Error("Sorry, there are no ads related to this sneaker");
@@ -21,6 +27,7 @@ const loadSneakerAds = async (req, res, next) => {
     res.json(ads);
   }
 };
+
 const loadHotDeals = async (req, res, next) => {
   try {
     const ads = await Ad.find();
