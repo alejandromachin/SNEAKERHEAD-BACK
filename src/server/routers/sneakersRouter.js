@@ -4,7 +4,7 @@ const {
   getAllSneakers,
   moreInfoSneaker,
   getAllSneakersSlider,
-  getAllSneakersByBrand,
+  getAllSneakersByParam,
 } = require("../controllers/sneakersController/sneakersController");
 
 const router = express.Router();
@@ -12,6 +12,6 @@ const router = express.Router();
 router.get("/", getAllSneakers);
 router.get("/slider", getAllSneakersSlider);
 router.get("/:id", moreInfoSneaker);
-router.get("/brand/:brand", getAllSneakersByBrand);
+router.get("/search/:param", getAllSneakersByParam);
 
 module.exports = router;

@@ -14,14 +14,22 @@ const getAllSneakers = async (req, res, next) => {
   }
 };
 
-const getAllSneakersByBrand = async (req, res, next) => {
+const getAllSneakersByParam = async (req, res, next) => {
   try {
-    const { brand } = req.params;
+    const { param } = req.params;
+
     const limit = +req.query.limit;
     const skip = +req.query.skip;
-    const allSneakers = await Sneaker.find({ brand }).skip(skip).limit(limit);
+    const allSneakers = await Sneaker.find().skip(skip).limit(limit);
 
-    res.json(allSneakers);
+    const filterSneakers = allSneakers.filter(
+      (sneaker) =>
+        sneaker.colorway.toLowerCase() === param ||
+        sneaker.brand.toLowerCase() === param ||
+        sneaker.style.toLowerCase() === param
+    );
+
+    res.json(filterSneakers);
   } catch {
     const error = new Error("We could not find any sneakers");
     error.code = 404;
@@ -57,5 +65,5 @@ module.exports = {
   getAllSneakers,
   moreInfoSneaker,
   getAllSneakersSlider,
-  getAllSneakersByBrand,
+  getAllSneakersByParam,
 };
