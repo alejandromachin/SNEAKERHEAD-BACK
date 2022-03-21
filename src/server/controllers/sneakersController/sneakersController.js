@@ -18,26 +18,31 @@ const getAllSneakersByParam = async (req, res, next) => {
   try {
     const { param } = req.params;
 
-    const paramsArray = param.toLowerCase().split(" ");
-
     const limit = +req.query.limit;
     const skip = +req.query.skip;
-    const allSneakers = await Sneaker.find().skip(skip).limit(limit);
 
-    const filterSneakers = allSneakers.filter(
-      (sneaker) =>
-        paramsArray.some((item) =>
-          sneaker.style.toLowerCase().split(" ").includes(item)
-        ) ||
-        paramsArray.some((item) =>
-          sneaker.brand.toLowerCase().split(" ").includes(item)
-        ) ||
-        paramsArray.some((item) =>
-          sneaker.colorway.toLowerCase().split(" ").includes(item)
-        )
-    );
+    if (param === " ") {
+      const allSneakers = await Sneaker.find().skip(skip).limit(limit);
+      res.json(allSneakers);
+    } else {
+      const paramsArray = param.toLowerCase().split(" ");
+      const allSneakers = await Sneaker.find().skip(skip).limit(limit);
 
-    res.json(filterSneakers);
+      const filterSneakers = allSneakers.filter(
+        (sneaker) =>
+          paramsArray.some((item) =>
+            sneaker.style.toLowerCase().split(" ").includes(item)
+          ) ||
+          paramsArray.some((item) =>
+            sneaker.brand.toLowerCase().split(" ").includes(item)
+          ) ||
+          paramsArray.some((item) =>
+            sneaker.colorway.toLowerCase().split(" ").includes(item)
+          )
+      );
+
+      res.json(filterSneakers);
+    }
   } catch {
     const error = new Error("We could not find any sneakers");
     error.code = 404;
