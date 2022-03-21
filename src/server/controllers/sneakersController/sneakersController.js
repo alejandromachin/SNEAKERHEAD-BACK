@@ -18,17 +18,17 @@ const getAllSneakersByParam = async (req, res, next) => {
   try {
     const { param } = req.params;
 
+    const paramsArray = param.split(" ");
+
     const limit = +req.query.limit;
     const skip = +req.query.skip;
     const allSneakers = await Sneaker.find().skip(skip).limit(limit);
 
     const filterSneakers = allSneakers.filter(
       (sneaker) =>
-        sneaker.colorway.toLowerCase() === param.toLowerCase() ||
-        sneaker.brand.toLowerCase() === param.toLowerCase() ||
-        sneaker.style.toLowerCase() === param.toLowerCase() ||
-        `${sneaker.brand.toLowerCase()} ${sneaker.style.toLowerCase()} ${sneaker.colorway.toLowerCase()}` ===
-          param.toLowerCase()
+        paramsArray.includes(sneaker.brand.toLowerCase()) ||
+        paramsArray.includes(sneaker.style.toLowerCase()) ||
+        paramsArray.includes(sneaker.colorway.toLowerCase())
     );
 
     res.json(filterSneakers);
