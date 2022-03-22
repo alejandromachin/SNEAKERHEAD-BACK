@@ -43,6 +43,7 @@ beforeEach(async () => {
     status: "new",
     box: "no box",
     condition: 10,
+    ownerEmail: "test@email.com",
   });
 });
 

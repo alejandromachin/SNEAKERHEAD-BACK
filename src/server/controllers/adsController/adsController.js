@@ -77,6 +77,10 @@ const createAd = async (req, res, next) => {
   const data = req.body;
   const { sneakerId } = data;
   try {
+    const owner = await User.findById(data.owner);
+
+    data.ownerEmail = owner.email;
+
     const newAd = await Ad.create(data);
 
     const sneaker = await Sneaker.findById(sneakerId);
@@ -84,8 +88,6 @@ const createAd = async (req, res, next) => {
     sneaker.ads.push(newAd.id);
 
     await Sneaker.findByIdAndUpdate(sneaker.id, sneaker);
-
-    const owner = await User.findById(data.owner);
 
     owner.ads.push(newAd.id);
 
