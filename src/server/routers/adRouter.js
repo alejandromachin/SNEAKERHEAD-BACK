@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const { validate } = require("express-validation");
 const multer = require("multer");
 
 const {
@@ -10,6 +11,7 @@ const {
   editAd,
   loadHotDeals,
 } = require("../controllers/adsController/adsController");
+const adValidator = require("../middlewares/adValidator");
 
 const upload = multer({ dest: "uploads/" });
 
@@ -21,6 +23,7 @@ router.get("/detail/:id", loadSneakerAdInfo);
 router.delete("/:id", deleteAd);
 router.post(
   "/new",
+  validate(adValidator),
   upload.fields([
     { name: "image1" },
     { name: "image2" },
