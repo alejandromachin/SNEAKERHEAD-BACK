@@ -31,6 +31,7 @@ beforeEach(async () => {
     status: "new",
     box: "no box",
     condition: 10,
+    ownerEmail: "test@email.com",
   });
   await Ad.create({
     _id: "622884a8c2b0a157923fa39b",
@@ -46,6 +47,7 @@ beforeEach(async () => {
     price: "4.000€",
     box: "Good",
     condition: 10,
+    ownerEmail: "test@email.com",
   });
   await Ad.create({
     _id: "622884cac2b0a157923fa39d",
@@ -61,6 +63,7 @@ beforeEach(async () => {
     price: "4.000€",
     box: "Good",
     condition: 10,
+    ownerEmail: "test@email.com",
   });
   await Ad.create({
     _id: "622884cac2b0a157923fa397",
@@ -76,6 +79,7 @@ beforeEach(async () => {
     price: "4.000€",
     box: "Good",
     condition: 10,
+    ownerEmail: "test@email.com",
   });
 });
 

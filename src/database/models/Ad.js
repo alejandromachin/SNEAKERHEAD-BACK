@@ -53,6 +53,10 @@ const adSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  ownerEmail: {
+    type: String,
+    required: true,
+  },
 });
 
 const Ad = model("Ad", adSchema, "ads");
