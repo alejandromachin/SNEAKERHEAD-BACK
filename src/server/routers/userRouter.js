@@ -7,10 +7,11 @@ const {
   loadUserAds,
 } = require("../controllers/userController/userController");
 const loginValidator = require("../middlewares/loginValidator");
+const registerValidator = require("../middlewares/registerValidator");
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register", validate(registerValidator), registerUser);
 router.post("/login", validate(loginValidator), loginUser);
 router.get("/ads/:id", loadUserAds);
 
