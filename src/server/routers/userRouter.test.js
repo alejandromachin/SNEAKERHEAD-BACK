@@ -68,7 +68,6 @@ describe("Given a /user/register endpoint", () => {
         password: "12345",
         email: "test@test.com",
         city: "testland",
-        admin: false,
       };
 
       const { body } = await request(app).post(endpoint).send(user).expect(409);
@@ -86,7 +85,6 @@ describe("Given a /user/register endpoint", () => {
         password: "12345",
         email: "test@test.com",
         city: "testland",
-        admin: false,
       };
 
       const { body } = await request(app).post(endpoint).send(user).expect(200);
