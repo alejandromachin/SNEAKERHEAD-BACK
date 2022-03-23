@@ -26,6 +26,7 @@ const getAllSneakersByParam = async (req, res, next) => {
       res.json(allSneakers);
     } else {
       const paramsArray = param.toLowerCase().split(" ");
+
       const allSneakers = await Sneaker.find().skip(skip).limit(limit);
 
       const filterSneakers = allSneakers.filter(
