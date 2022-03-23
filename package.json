@@ -18,7 +18,8 @@
       "!src/**/*.test.js",
       "!src/index.js",
       "!src/database/index.js",
-      "!src/server/serverUp.js"
+      "!src/server/serverUp.js",
+      "!src/server/utils/corsOptions.js"
     ]
   },
   "repository": {
