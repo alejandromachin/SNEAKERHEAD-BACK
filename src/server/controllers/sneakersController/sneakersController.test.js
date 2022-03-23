@@ -165,3 +165,55 @@ describe("Given getAllSneakersSlider middleware", () => {
     });
   });
 });
+
+describe("Given a getAllSneakersByParam controller", () => {
+  describe("When it receives a request of a 'jordan' brand with limit of 2 and skip of 0", () => {
+    test("Then it should call its response method with a maximum of 2 sneakers of that brand", async () => {
+      const req = {
+        params: { param: "all" },
+        query: { limit: 2, skip: 0 },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      const sneakers = [
+        { brand: "jordan", id: "1" },
+        { brand: "jordan", id: "2" },
+      ];
+
+      Sneaker.find = jest.fn().mockReturnThis();
+      Sneaker.skip = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
+
+      await getAllSneakersByParam(req, res, null);
+
+      expect(res.json).toBeCalled();
+    });
+  });
+
+  describe("When it receives a request of a 'jordan' brand with limit of 2 and skip of 0", () => {
+    test("Then it should call its response method with a maximum of 2 sneakers of that brand", async () => {
+      const req = {
+        params: { param: "jordan red and blue" },
+        query: { limit: 2, skip: 0 },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      const sneakers = [
+        { brand: "jordan", id: "1", style: "test", colorway: "test" },
+        { brand: "test", id: "2", style: "test", colorway: "red" },
+      ];
+
+      Sneaker.find = jest.fn().mockReturnThis();
+      Sneaker.skip = jest.fn().mockReturnThis();
+      Sneaker.limit = jest.fn().mockResolvedValue(sneakers);
+
+      await getAllSneakersByParam(req, res, null);
+
+      expect(res.json).toBeCalled();
+    });
+  });
+});
