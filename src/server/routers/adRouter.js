@@ -13,7 +13,7 @@ const {
 } = require("../controllers/adsController/adsController");
 const adValidator = require("../middlewares/adValidator");
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "uploads/", limits: { fileSize: 100000000 } });
 
 const router = express.Router();
 
