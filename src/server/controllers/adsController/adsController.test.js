@@ -261,6 +261,77 @@ describe("Given a createAd middleware", () => {
       expect(next).toHaveBeenCalled();
     });
   });
+
+  describe("When it receives a request with the data of an ad but ahs an error on renaming the file", () => {
+    test("Then it should call its next method with the error", async () => {
+      const newAd = {
+        sneakerId: "test",
+        brand: "test",
+        style: "test",
+        colorway: "test",
+        condition: 10,
+        images: ["test"],
+        price: "10.000",
+        size: 40,
+        likes: 0,
+        box: "good",
+        state: "new",
+        owner: "622b15710695a90af3e56a20",
+      };
+      const sneaker = {
+        id: "123",
+        brand: "Jordan",
+        style: "1 high",
+        colorway: "Chicago",
+        releaseDate: "1/2/1980",
+        image: "image",
+        averagePrice: "4.000€",
+        ads: [],
+      };
+      const newFile = {
+        originalname: "ad.jpeg",
+        filename: "test",
+        path: "uploads/test",
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: newAd,
+        files: {
+          image1: [newFile],
+          image2: [newFile],
+          image3: [newFile],
+          image4: [newFile],
+        },
+      };
+      const user = { ads: [] };
+      const next = jest.fn();
+      const error = new Error("I'm an error");
+      jest
+        .spyOn(fs, "rename")
+        .mockImplementation(
+          (oldFilenameImage1, newFileNameImage1, callback) => {
+            callback();
+          }
+        );
+      jest.spyOn(fs, "readFile").mockImplementation((file, callback) => {
+        callback(error, newFile);
+      });
+
+      Ad.create = jest.fn().mockResolvedValue(newAd);
+      Sneaker.findById = jest.fn().mockResolvedValue(sneaker);
+      Sneaker.findByIdAndUpdate = jest.fn().mockResolvedValue(sneaker);
+      Ad.findByIdAndUpdate = jest.fn().mockResolvedValue(Ad);
+      User.findById = jest.fn().mockResolvedValue(user);
+      User.findByIdAndUpdate = jest.fn().mockResolvedValue(true);
+
+      await createAd(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
 });
 describe("Given a editAd middleware", () => {
   describe("When it receives a request with the data of an ad to modify", () => {
