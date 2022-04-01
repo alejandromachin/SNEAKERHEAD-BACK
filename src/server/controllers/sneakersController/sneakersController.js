@@ -25,24 +25,18 @@ const getAllSneakersByParam = async (req, res, next) => {
       const allSneakers = await Sneaker.find().skip(skip).limit(limit);
       res.json(allSneakers);
     } else {
-      const paramsArray = param.toLowerCase().split(" ");
-
-      const allSneakers = await Sneaker.find().skip(skip).limit(limit);
-
-      const filterSneakers = allSneakers.filter(
-        (sneaker) =>
-          paramsArray.some((item) =>
-            sneaker.style.toLowerCase().split(" ").includes(item)
-          ) ||
-          paramsArray.some((item) =>
-            sneaker.brand.toLowerCase().split(" ").includes(item)
-          ) ||
-          paramsArray.some((item) =>
-            sneaker.colorway.toLowerCase().split(" ").includes(item)
-          )
-      );
-
-      res.json(filterSneakers);
+      const allSneakers = await Sneaker.find({
+        fullName: { $regex: param, $options: "i" },
+      })
+        .skip(skip)
+        .limit(limit);
+      if (allSneakers.length === 0) {
+        const error = new Error("We could not find any sneakers");
+        error.code = 404;
+        next(error);
+      } else {
+        res.json(allSneakers);
+      }
     }
   } catch {
     const error = new Error("We could not find any sneakers");

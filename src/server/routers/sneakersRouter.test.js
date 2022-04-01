@@ -23,6 +23,7 @@ beforeEach(async () => {
     releaseDate: "1/2/1980",
     image: "image",
     averagePrice: "4.000€",
+    fullName: "jordan 1 high chicago",
   });
   await Sneaker.create({
     _id: "622884a8c2b0a157923fa39b",
@@ -32,6 +33,7 @@ beforeEach(async () => {
     releaseDate: "1/2/1980",
     image: "image",
     averagePrice: "3.000€",
+    fullName: "jordan 1 high shadow",
   });
   await Sneaker.create({
     _id: "622884cac2b0a157923fa39d",
@@ -41,6 +43,7 @@ beforeEach(async () => {
     releaseDate: "1/2/1980",
     image: "image",
     averagePrice: "2.000€",
+    fullName: "jordan 1 high navy",
   });
 });
 

@@ -98,6 +98,7 @@ describe("Given a /ads/:id endpoint", () => {
     test("Then it should response with all the ads availables of that sneaker and a code 200", async () => {
       await Sneaker.create({
         _id: "62288281c2b0a157923fa399",
+        fullName: "jordan 1 high chicago",
         brand: "Jordan",
         style: "1 high",
         colorway: "Chicago",
