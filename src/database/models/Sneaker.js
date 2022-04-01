@@ -2,6 +2,7 @@ const { model, Schema } = require("mongoose");
 const Ad = require("./Ad");
 
 const sneakerSchema = new Schema({
+  fullName: { type: String, required: true },
   brand: {
     type: String,
     required: true,
